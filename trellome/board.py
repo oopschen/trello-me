@@ -20,6 +20,6 @@ def get_boards_list(board_id: str, filter="all", list_name_filter: str=None):
 
   return [
     item for item in res.json()
-      if rgx.match(item.name or "") or rgx.match(item.id or "")
+      if rgx.match(item["name"] or "") or rgx.match(item["id"] or "")
   ]
 
