@@ -4,6 +4,8 @@ import requests as rts
 import logging as lg
 import re
 
+from trellome.util import chain_or
+from trellome.util import regex_match_with_prop
 from . import settings as ss
 
 def get_boards_list(board_id: str, filter="all", list_name_filter: str=None):
@@ -20,6 +22,9 @@ def get_boards_list(board_id: str, filter="all", list_name_filter: str=None):
 
   return [
     item for item in res.json()
-      if rgx.match(item["name"] or "") or rgx.match(item["id"] or "")
+    if chain_or(
+        regex_match_with_prop("name", rgx, item),
+        regex_match_with_prop("id", rgx, item),
+        )
   ]
 
